@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Projet Jumeau numerique</title>
+    <link rel="icon" type="image/png" href="190411.png">
+    <!-- Style global -->
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef1f5;
+        }
+
+        header {
+            background: #003366;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .menu a {
+            color: #ffcc00;
+            font-weight: bold;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+        .menu a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Équipe */
+        .team-container {
+            display: flex;
+            gap: 20px;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .member {
+            width: 200px;
+            text-align: center;
+        }
+
+        .member img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<header>
+    <h1>Projet Jumeau Numérique</h1>
+    <nav class="menu">
+        <a href="#" onclick="showPage('accueil')">Accueil</a>
+        <a href="#" onclick="showPage('presentation')">Présentation</a>
+        <a href="#" onclick="showPage('etude')">Étude de cas</a>
+        <a href="#" onclick="showPage('equipe')">Équipe</a>
+    </nav>
+</header>
+
+<main>
+
+    <!-- PAGE 1 : ACCUEIL -->
+    <section id="accueil" class="card">
+        <h2>Bienvenue sur notre site de projet Jumeau Numérique</h2>
+        <p>Dans le cadre de notre projet d’ingénierie en I4 à l’ICAM, nous développons un système innovant de régulation thermique basé sur l’utilisation d’un tube Venturi. L’objectif principal est de réduire et stabiliser la température d’un processeur grâce à un écoulement d’air contrôlé, tout en modélisant précisément le comportement du système.<br><br>
+
+Nous concevons un jumeau numérique complet du tube Venturi, permettant de simuler en temps réel :
+<ul>
+  <li>le comportement thermodynamique du processeur,</li>
+  <li>la dynamique de l’air au sein du tube,</li>
+  <li>les variations de température en entrée et en sortie du système.</li>
+</ul>
+
+Une fois la simulation validée, un prototype physique sera fabriqué afin de constituer une plateforme de tests. Cette plateforme sera associée à une intelligence artificielle capable de prédire :
+<ul>
+  <li>la température future du processeur,</li>
+  <li>les temps de transit d’air dans le tube,</li>
+  <li>l’efficacité du refroidissement selon différentes conditions.</li>
+</ul>
+
+Ce projet allie modélisation numérique, prototypage et intelligence artificielle pour offrir une solution performante et intelligente de gestion thermique.
+</p>
+    <img src="Capture d'écran 2025-10-24 095738.jpg" style="width:100%; border-radius:10px;">
+    </section>
+
+<!-- PAGE 2 : PRÉSENTATION -->
+<section id="presentation" class="card" style="display:none;">
+    
+    <h2 style="text-align:center;">Présentation du projet</h2>
+
+    <p style="line-height:1.6;">
+        <strong>Projet Jumeau Numérique : Régulation Thermique Intelligente</strong><br><br>
+
+        <strong>Objectif :</strong> Créer un système de refroidissement capable de prédire et de réguler la température 
+        d'un processeur en couplant un modèle virtuel (simulation) et un prototype physique réel.
+        <br><br>
+
+        <strong>1. Conception & Simulation</strong><br>
+        Nous avons conçu un tunnel de refroidissement utilisant l'effet Venturi pour accélérer le flux d'air 
+        et maximiser l'efficacité du dissipateur.<br>
+        • <strong>Validation Numérique :</strong> Simulations sous ANSYS Fluent validant le choix d'un dissipateur à ailettes droites.<br>
+        • <strong>Résultat :</strong> Le modèle numérique prédit une hausse de température (+9°C pour 10W) identique aux mesures réelles.
+        <br><br>
+
+        <strong>2. Système Physique & Électronique</strong><br>
+        Le prototype est imprimé en 3D et piloté par un Raspberry Pi 5. 
+        Le montage utilise deux composants clés :<br>
+        • <strong>MCP3008 (ADC)</strong> : lecture de la sonde CTN<br>
+        • <strong>Driver L298N</strong> : pilotage ventilateur + résistance<br><br>
+
+        <!-- 🔽 Image centrée + réduite -->
+        <img src="Capture d'écran 2025-12-03 104747.jpg" alt="Schéma électronique Fritzing" 
+             style="width:50%; display:block; margin:10px auto; border-radius:10px;">
+
+        <strong>3. Programmation & Interface</strong><br>
+        Une application Python gère :<br>
+        • Lecture des capteurs en temps réel (SPI)<br>
+        • Régulation automatique du ventilateur<br>
+        • Visualisation de la température en direct<br><br>
+
+        <strong>Conclusion & Avenir</strong><br>
+        Le système est fonctionnel et le modèle numérique validé. 
+        Prochaine étape : une régulation par Intelligence Artificielle prédictive.
+    </p>
+
+    <h3>Vidéo du système en fonctionnement</h3>
+    <video src="VID_20251202_181815.mp4" style="width:100%; border-radius:10px;" controls></video>
+</section>
+
+
+    <!-- PAGE 3 : ETUDE DE CAS -->
+    <section id="etude" class="card" style="display:none;">
+        <h2>Étude de cas / Relevé des valeurs</h2>
+        <canvas id="tempChart"></canvas>
+<div style="margin-top: 20px; text-align: center;">
+    <button onclick="increaseResistance()" 
+            style="padding:10px 20px; font-size:16px;">⬆ Monter la résistance</button>
+
+    <button onclick="decreaseResistance()" 
+            style="padding:10px 20px; font-size:16px; margin-left:10px;">⬇ Descendre la résistance</button>
+</div>
+        <h3>Valeurs actuelles</h3>
+        <p><b>Température entrée :</b> <span id="tempIn">--</span> °C</p>
+        <p><b>Température sortie :</b> <span id="tempOut">--</span> °C</p>
+    </section>
+
+    <!-- PAGE 4 : EQUIPE -->
+    <section id="equipe" class="card" style="display:none;">
+        <h2>Notre équipe</h2>
+
+        <div class="team-container">
+
+            <div class="member">
+                <img src="1000016468.jpg">
+                <h3>Nathan Blondeau</h3>
+                <p>Retour d'expérience du membre 1...</p>
+            </div>
+
+            <div class="member">
+                <img src="1000016473.jpg">
+                <h3>Romain Voillard</h3>
+                <p>Retour d'expérience du membre 2...</p>
+            </div>
+
+            <div class="member">
+                <img src="1000016470.jpg">
+                <h3>Thomas Veiga</h3>
+                <p>Retour d'expérience du membre 3...</p>
+            </div>
+
+            <div class="member">
+                <img src="1000016479.jpg">
+                <h3>Matéo Guinbert</h3>
+                <p>Retour d'expérience du membre 4...</p>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+<!-- SCRIPT POUR CHANGER DE PAGE -->
+<script>
+function showPage(page) {
+    document.getElementById("accueil").style.display = "none";
+    document.getElementById("presentation").style.display = "none";
+    document.getElementById("etude").style.display = "none";
+    document.getElementById("equipe").style.display = "none";
+
+    document.getElementById(page).style.display = "block";
+}
+</script>
+
+<!-- SCRIPT DU GRAPHIQUE -->
+<script>
+let labels = [];
+let tempInData = [];
+let tempOutData = [];
+
+for (let i = 0; i < 24; i++) {
+    labels.push(i + "h");
+    tempInData.push(20 + Math.random() * 3);
+    tempOutData.push(40 + Math.random() * 5);
+}
+
+const ctx = document.getElementById('tempChart');
+
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [
+            {
+                label: "Temp entrée (°C)",
+                data: tempInData,
+                borderColor: "blue",
+                fill: false
+            },
+            {
+                label: "Temp sortie (°C)",
+                data: tempOutData,
+                borderColor: "red",
+                fill: false
+            }
+        ]
+    }
+});
+</script>
+
+</body>
+</html>

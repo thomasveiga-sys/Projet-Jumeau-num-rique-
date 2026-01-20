@@ -72,7 +72,8 @@
     <nav class="menu">
         <a href="#" onclick="showPage('accueil')">Accueil</a>
         <a href="#" onclick="showPage('presentation')">Présentation</a>
-        <a href="#" onclick="showPage('etude')">Étude de cas</a>
+        <a href="#" onclick="showPage('etude')">Etude de cas</a>
+        <a href="#" onclick="showPage('ia')">IA Prédictive</a>
         <a href="#" onclick="showPage('equipe')">Équipe</a>
     </nav>
 </header>
@@ -197,6 +198,25 @@ Ce projet allie modélisation numérique, prototypage et intelligence artificiel
         </div>
     </section>
 
+    <section id="ia" class="card" style="display:none;">
+    <h2>Intelligence Artificielle : Random Forest</h2>
+    <p>Pour notre jumeau numérique, nous utilisons l'algorithme <strong>Random Forest</strong> (Forêt Aléatoire). Son rôle est d'anticiper la température en sortie de tube pour agir sur la régulation avant même que la chaleur n'augmente.</p>
+    
+    <div style="display: flex; justify-content: space-around; background: #f9f9f9; padding: 15px; border-radius: 8px; margin: 20px 0; text-align: center; color: #003366; font-weight: bold;">
+        <div>🌡️<br>Temp. Entrée</div>
+        <div>🌀<br>Flux d'air</div>
+        <div>⚡<br>Puissance (W)</div>
+        <div>⏱️<br>Temps (s)</div>
+    </div>
+
+    <h3>Comment fonctionne la prédiction ?</h3>
+    <p>L'algorithme crée une multitude d'arbres de décision. Chaque "arbre" analyse une partie des données historiques (ex: <i>"Si le ventilateur tourne à 50% et que la résistance est à 10W, alors la température sera de 42°C"</i>).</p>
+
+    
+
+    <p>La force du Random Forest est de combiner les réponses de tous ces arbres pour obtenir une <strong>moyenne précise</strong>. Cela permet au jumeau numérique d'être extrêmement robuste face aux variations imprévues du système physique.</p>
+</section>
+
 </main>
 
 <!-- SCRIPT POUR CHANGER DE PAGE -->
@@ -206,6 +226,7 @@ function showPage(page) {
     document.getElementById("presentation").style.display = "none";
     document.getElementById("etude").style.display = "none";
     document.getElementById("equipe").style.display = "none";
+    document.getElementById("ia").style.display = "none";
 
     document.getElementById(page).style.display = "block";
 }

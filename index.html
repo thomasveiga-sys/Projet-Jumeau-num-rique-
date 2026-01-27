@@ -151,26 +151,30 @@ Ce projet allie modélisation numérique, prototypage et intelligence artificiel
 
     <!-- PAGE 3 : ETUDE DE CAS -->
 <section id="etude" class="card" style="display:none;">
-    <h2>Étude de cas : Analyse des Régimes de Vitesse</h2>
+    <h2>Analyse Quantitative : Caractérisation des performances</h2>
     
     <div style="display: flex; flex-direction: column; gap: 30px; align-items: center;">
         
         <div style="width: 100%; text-align: center; border-bottom: 1px solid #ddd; padding-bottom: 20px;">
             <h3>1. Régime à 1 m/s (Flux Faible)</h3>
-            <img src="1variation.png" alt="Variation 1m/s" style="width:80%; max-width:700px; border-radius:8px;">
-            <p>À basse vitesse, la convection est limitée. On observe une résistance thermique élevée de <strong>5.20 °C/W</strong>. La température grimpe rapidement.</p>
+            <img src="variation3.png" alt="Variation 1m/s" style="width:80%; max-width:700px; border-radius:8px;">
+            <p>
+            <strong>A. Vérification de la linéarité</strong><br>
+             Les courbes montrent une stricte proportionnalité entre la température et la puissance pour chaque vitesse testée. Cela démontre que le régime d'écoulement est stable et que le coefficient de convection <strong>h</strong> reste constant dans notre plage de fonctionnement (5-25W), rendant le système parfaitement prédictible pour l'IA.
+            </p>
         </div>
 
         <div style="width: 100%; text-align: center; border-bottom: 1px solid #ddd; padding-bottom: 20px;">
-            <h3>2. Régime à 2.23 m/s (Point Optimal)</h3>
+            <h3>B. Bilan Énergétique (Fluide) </h3>
             <img src="2variations.png" alt="Variation 2.23m/s" style="width:80%; max-width:700px; border-radius:8px;">
-            <p>C'est notre point de référence. L'équilibre est atteint avec une $R_{th}$ de <strong>3.08 °C/W</strong>. Le flux d'air est suffisant pour stabiliser la charge de 10W.</p>
+            <p>Nous avons vérifié la conservation de l'énergie en observant l'échauffement de l'air traversant le système. À faible vitesse (1 m/s), l'air stagne et s'échauffe fortement (+15°C), tandis qu'à haute vitesse, le renouvellement rapide limite cet échauffement.</p>
         </div>
 
         <div style="width: 100%; text-align: center;">
-            <h3>3. Régime à 5 m/s (Performance Max)</h3>
-            <img src="variation3.png" alt="Variation 5m/s" style="width:80%; max-width:700px; border-radius:8px;">
-            <p>Performance maximale du tube Venturi. La résistance thermique chute à <strong>1.77 °C/W</strong>. Le refroidissement est extrêmement efficace mais plus bruyant.</p>
+            <h3>C. Synthèse : Courbe de Performance Thermique</h3>
+            <img src="1variation.png" alt="Variation 5m/s" style="width:80%; max-width:700px; border-radius:8px;">
+            <p>Nous observons une amélioration drastique du refroidissement (chute de R_th) lorsque la vitesse passe de 1 m/s à 2.23 m/s. Au-delà de 3 m/s, la courbe tend vers une asymptote : le gain de performance devient marginal. Cette analyse nous permet de valider le point de fonctionnement optimal du ventilateur autour de 2.5 m/s, offrant le meilleur compromis entre refroidissement et consommation électrique.
+            </p>
         </div>
 
     </div>
@@ -208,31 +212,43 @@ Ce projet allie modélisation numérique, prototypage et intelligence artificiel
 
         </div>
     </section>
+    
 
 <section id="ia" class="card" style="display:none;">
-    <h2>Intelligence Artificielle & Jumeau Numérique</h2>
-    
-    <div style="text-align: center; margin-bottom: 30px;">
-        <h3>Performance de la Forêt Aléatoire</h3>
-        <img src="ramdom forest.png" alt="Prédiction Random Forest" style="width:90%; max-width:800px; border-radius:10px;">
-        <p style="margin-top: 10px;">Le modèle anticipe l'inertie thermique avec une précision <strong>R² de 0.9973</strong>.</p>
+    <h2>Intelligence Artificielle : Choix du modèle</h2>
+
+    <div style="text-align: center; margin-bottom: 20px;">
+        <img src="ramdom forest.png" alt="Prédiction Random Forest" style="width:80%; border-radius:10px;">
     </div>
 
-    <hr style="margin: 40px 0;">
+    <p>
+        <strong>3.2 L'Intelligence Artificielle : Choix du modèle</strong><br>
+        Pour doter le système de capacités prédictives, nous avons constitué une base de données expérimentale contenant plus de <strong>12 000 points de mesure</strong>, capturant la dynamique du système lors de montées en température et de refroidissements forcés.<br><br>
 
-    <div style="text-align: center;">
-        <h3>Démonstration du Système en Temps Réel</h3>
-        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+        Deux architectures de Machine Learning ont été mises en compétition :<br><br>
+
+        <strong>1. La Régression Linéaire :</strong><br>
+        Testée pour sa simplicité, elle a cependant échoué à modéliser les <strong>non-linéarités</strong> induites par la convection forcée, affichant un taux d'erreur (MSE) trop élevé lors des transitoires rapides.<br><br>
+
+        <strong>2. La Forêt Aléatoire (Random Forest) :</strong><br>
+        Ce modèle d'ensemble, constitué de multiples arbres de décision, s'est révélé bien plus robuste :<br>
+        • <strong>Entraînement :</strong> Réalisé via la bibliothèque « scikit-learn » en Python.<br>
+        • <strong>Performance :</strong> Coefficient de détermination <strong>R² = 0.9973</strong>.<br>
+        • <strong>Lag Features :</strong> L'ajout de variables retardées (visibles via <em>previous_res_temp</em>) permet au modèle de prendre en compte l'<strong>inertie thermique</strong> (l'état passé influence l'état futur).<br><br>
+
+        <strong>Note technique :</strong> Le <strong>MSE</strong> (Mean Squared Error) mesure l’erreur moyenne entre les valeurs prédites et observées. Une valeur faible, comme celle obtenue avec notre Random Forest (0.0471), indique une très haute précision.
+    </p>
+
+    <div style="text-align: center; margin-top: 30px;">
+        <h3>Démonstration du Système</h3>
+        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 12px;">
             <iframe 
                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
                 src="https://www.youtube.com/embed/UWH4jTVQrVs" 
-                title="Démonstration Jumeau Numérique" 
                 frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                 allowfullscreen>
             </iframe>
         </div>
-        <p style="margin-top: 15px; font-style: italic;">Vidéo montrant la régulation proactive et le monitoring via l'interface Python.</p>
     </div>
 </section>
 </main>
@@ -254,4 +270,5 @@ function showPage(page) {
 
 </body>
 </html>
+
 

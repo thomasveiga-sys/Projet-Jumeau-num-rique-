@@ -150,20 +150,31 @@ Ce projet allie modélisation numérique, prototypage et intelligence artificiel
 
 
     <!-- PAGE 3 : ETUDE DE CAS -->
-    <section id="etude" class="card" style="display:none;">
-        <h2>Étude de cas / Relevé des valeurs</h2>
-        <canvas id="tempChart"></canvas>
-<div style="margin-top: 20px; text-align: center;">
-    <button onclick="increaseResistance()" 
-            style="padding:10px 20px; font-size:16px;">⬆ Monter la résistance</button>
+<section id="etude" class="card" style="display:none;">
+    <h2>Étude de cas : Analyse des Régimes de Vitesse</h2>
+    
+    <div style="display: flex; flex-direction: column; gap: 30px; align-items: center;">
+        
+        <div style="width: 100%; text-align: center; border-bottom: 1px solid #ddd; padding-bottom: 20px;">
+            <h3>1. Régime à 1 m/s (Flux Faible)</h3>
+            <img src="1variation.png" alt="Variation 1m/s" style="width:80%; max-width:700px; border-radius:8px;">
+            <p>À basse vitesse, la convection est limitée. On observe une résistance thermique élevée de <strong>5.20 °C/W</strong>. La température grimpe rapidement.</p>
+        </div>
 
-    <button onclick="decreaseResistance()" 
-            style="padding:10px 20px; font-size:16px; margin-left:10px;">⬇ Descendre la résistance</button>
-</div>
-        <h3>Valeurs actuelles</h3>
-        <p><b>Température entrée :</b> <span id="tempIn">--</span> °C</p>
-        <p><b>Température sortie :</b> <span id="tempOut">--</span> °C</p>
-    </section>
+        <div style="width: 100%; text-align: center; border-bottom: 1px solid #ddd; padding-bottom: 20px;">
+            <h3>2. Régime à 2.23 m/s (Point Optimal)</h3>
+            <img src="2variations.png" alt="Variation 2.23m/s" style="width:80%; max-width:700px; border-radius:8px;">
+            <p>C'est notre point de référence. L'équilibre est atteint avec une $R_{th}$ de <strong>3.08 °C/W</strong>. Le flux d'air est suffisant pour stabiliser la charge de 10W.</p>
+        </div>
+
+        <div style="width: 100%; text-align: center;">
+            <h3>3. Régime à 5 m/s (Performance Max)</h3>
+            <img src="variation3.png" alt="Variation 5m/s" style="width:80%; max-width:700px; border-radius:8px;">
+            <p>Performance maximale du tube Venturi. La résistance thermique chute à <strong>1.77 °C/W</strong>. Le refroidissement est extrêmement efficace mais plus bruyant.</p>
+        </div>
+
+    </div>
+</section>
 
     <!-- PAGE 4 : EQUIPE -->
     <section id="equipe" class="card" style="display:none;">
@@ -198,25 +209,32 @@ Ce projet allie modélisation numérique, prototypage et intelligence artificiel
         </div>
     </section>
 
-    <section id="ia" class="card" style="display:none;">
-    <h2>Intelligence Artificielle : Random Forest</h2>
-    <p>Pour notre jumeau numérique, nous utilisons l'algorithme <strong>Random Forest</strong> (Forêt Aléatoire). Son rôle est d'anticiper la température en sortie de tube pour agir sur la régulation avant même que la chaleur n'augmente.</p>
+<section id="ia" class="card" style="display:none;">
+    <h2>Intelligence Artificielle & Jumeau Numérique</h2>
     
-    <div style="display: flex; justify-content: space-around; background: #f9f9f9; padding: 15px; border-radius: 8px; margin: 20px 0; text-align: center; color: #003366; font-weight: bold;">
-        <div>🌡️<br>Temp. Entrée</div>
-        <div>🌀<br>Flux d'air</div>
-        <div>⚡<br>Puissance (W)</div>
-        <div>⏱️<br>Temps (s)</div>
+    <div style="text-align: center; margin-bottom: 30px;">
+        <h3>Performance de la Forêt Aléatoire</h3>
+        <img src="ramdom forest.png" alt="Prédiction Random Forest" style="width:90%; max-width:800px; border-radius:10px;">
+        <p style="margin-top: 10px;">Le modèle anticipe l'inertie thermique avec une précision <strong>R² de 0.9973</strong>.</p>
     </div>
 
-    <h3>Comment fonctionne la prédiction ?</h3>
-    <p>L'algorithme crée une multitude d'arbres de décision. Chaque "arbre" analyse une partie des données historiques (ex: <i>"Si le ventilateur tourne à 50% et que la résistance est à 10W, alors la température sera de 42°C"</i>).</p>
+    <hr style="margin: 40px 0;">
 
-    
-
-    <p>La force du Random Forest est de combiner les réponses de tous ces arbres pour obtenir une <strong>moyenne précise</strong>. Cela permet au jumeau numérique d'être extrêmement robuste face aux variations imprévues du système physique.</p>
+    <div style="text-align: center;">
+        <h3>Démonstration du Système en Temps Réel</h3>
+        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+            <iframe 
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+                src="https://www.youtube.com/embed/UWH4jTVQrVs" 
+                title="Démonstration Jumeau Numérique" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+        <p style="margin-top: 15px; font-style: italic;">Vidéo montrant la régulation proactive et le monitoring via l'interface Python.</p>
+    </div>
 </section>
-
 </main>
 
 <!-- SCRIPT POUR CHANGER DE PAGE -->
@@ -232,41 +250,8 @@ function showPage(page) {
 }
 </script>
 
-<!-- SCRIPT DU GRAPHIQUE -->
-<script>
-let labels = [];
-let tempInData = [];
-let tempOutData = [];
-
-for (let i = 0; i < 24; i++) {
-    labels.push(i + "h");
-    tempInData.push(20 + Math.random() * 3);
-    tempOutData.push(40 + Math.random() * 5);
-}
-
-const ctx = document.getElementById('tempChart');
-
-new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: labels,
-        datasets: [
-            {
-                label: "Temp entrée (°C)",
-                data: tempInData,
-                borderColor: "blue",
-                fill: false
-            },
-            {
-                label: "Temp sortie (°C)",
-                data: tempOutData,
-                borderColor: "red",
-                fill: false
-            }
-        ]
-    }
-});
 </script>
 
 </body>
 </html>
+
